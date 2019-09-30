@@ -1,100 +1,126 @@
+#ifdef _DEBUG 
+#pragma comment(lib,"sfml-graphics-d.lib") 
+#pragma comment(lib,"sfml-audio-d.lib") 
+#pragma comment(lib,"sfml-system-d.lib") 
+#pragma comment(lib,"sfml-window-d.lib") 
+#pragma comment(lib,"sfml-network-d.lib") 
+#else 
+#pragma comment(lib,"sfml-graphics.lib") 
+#pragma comment(lib,"sfml-audio.lib") 
+#pragma comment(lib,"sfml-system.lib") 
+#pragma comment(lib,"sfml-window.lib") 
+#pragma comment(lib,"sfml-network.lib") 
+#endif 
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
+
+static std::vector<std::string> output;
 
 class Command
 {
 public:
+	Command() {}
 	virtual ~Command() {}
+	virtual void add() = 0;
+	virtual void increase() = 0;
 	virtual void execute() = 0;
 	virtual void undo() = 0;
-protected:
-	Command() {}
 };
 
 class MacroCommand : public Command
 {
 public:
-	MacroCommand() {}
+	MacroCommand() {};
 	virtual ~MacroCommand() {}
-	virtual void add(int x) { if(z<x) z++; };
-	virtual void undo(int x) { if (z > 0)z--; };
-	virtual void execute(int x) {
+	 void add() { if(z < x) z++; };
+	 void increase() { z++; x++; };
+	 void undo() { if (z > 0)z--; };
+	 void execute() {
+		 
 		for(int i = 0; i < z ;i++)
 		{
 			system("cls");
 			std::cout << output[i];
 		}
 	};
-	std::vector<std::string> command() { return output; };
 private:
-	std::vector<std::string> output;
-	int z;
+	int z = 0;
+	int x = 0;
 };
 
 class InputHandler
 {
 public:
-	int x = -1;
-	void handleInput(std::vector<std::string> output)
+	void handleInput()
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) == true)
 		{
 			output.push_back("q");
-			x++;
-			button->execute(x);
+			button->increase();
+			button->execute();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) == true)
 		{
 			output.push_back("w");
-			x++;
-			button->execute(x);
+			button->increase();
+			button->execute();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) == true)
 		{
 			output.push_back("e");
-			x++;
-			button->execute(x);
+			button->increase();
+			button->execute();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) == true)
 		{
 			output.push_back("r");
-			x++;
-			button->execute(x);
+			button->increase();
+			button->execute();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::T) == true)
 		{
 			output.push_back("t");
-			x++;
-			button->execute(x);
+			button->increase();
+			button->execute();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y) == true)
 		{
 			output.push_back("y");
-			x++;
-			button->execute(x);
+			button->increase();
+			button->execute();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) == true)
 		{
-			button->add(x);
-			button->execute(x);
+			button->add();
+			button->execute();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) == true)
 		{
-			button->undo(x);
-			button->execute(x);
+			button->undo();
+			button->execute();
 		}
 	};
 
 private:
-	MacroCommand* button;
+	Command* button = new MacroCommand();
 };
 
 int main()
 {
-	InputHandler input;
-	MacroCommand* button;
-	input.handleInput(button->command());
+	bool start = true;
 
+	while (start)
+	{
+		InputHandler input;
+		Command* output = new MacroCommand();
+		input.handleInput();
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			start = false;
+		}
+	}
 	system("pause");
 	return 0;
 }
