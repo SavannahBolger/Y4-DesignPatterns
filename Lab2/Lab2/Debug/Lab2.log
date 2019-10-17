@@ -1,2 +1,2 @@
 ﻿  main.cpp
-C:\College Projects\Year 4\Game Eng 2\Y4-DesignPatterns\Lab2\Lab2\main.cpp(96): error C4700: uninitialized local variable 'button' used
+  Lab2.vcxproj -> C:\Users\edenb\Documents\Year 4\Y4-DesignPatterns\Lab2\Debug\Lab2.exe

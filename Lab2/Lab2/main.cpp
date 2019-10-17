@@ -16,6 +16,8 @@
 #include <SFML/Graphics.hpp>
 
 static std::vector<std::string> output;
+int z = 0;
+int x = 0;
 
 class Command
 {
@@ -31,22 +33,21 @@ public:
 class MacroCommand : public Command
 {
 public:
-	MacroCommand() {};
+	MacroCommand() { };
 	virtual ~MacroCommand() {}
 	 void add() { if(z < x) z++; };
 	 void increase() { z++; x++; };
 	 void undo() { if (z > 0)z--; };
 	 void execute() {
-		 
+		 system("cls");
+
 		for(int i = 0; i < z ;i++)
 		{
-			system("cls");
 			std::cout << output[i];
 		}
 	};
 private:
-	int z = 0;
-	int x = 0;
+	
 };
 
 class InputHandler
@@ -113,7 +114,6 @@ int main()
 	while (start)
 	{
 		InputHandler input;
-		Command* output = new MacroCommand();
 		input.handleInput();
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
